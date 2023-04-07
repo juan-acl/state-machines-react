@@ -3,7 +3,14 @@ import './Nav.css';
 
 export const Nav = ({ state, send }) => {
   const goToWelcome = () => {
-    send('CANCEL')
+    //send('CANCEL',
+    if(state.matches("tickets")) {
+    send("FINISH") 
+    }else {
+      send("CANCEL")
+    }
+      //{newPassenger: [], selectedCountry : ''}
+  
   }
 
   return (

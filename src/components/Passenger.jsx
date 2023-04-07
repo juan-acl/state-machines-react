@@ -3,23 +3,31 @@ import './Passengers.css';
 
 export const Passengers = ({ state, send }) => {
   const [value, changeValue] = useState('');
-
+  let sta = state.context
+  console.log({sta})
   const onChangeInput = (e) => {
     changeValue(e.target.value);
   }
 
   const goToTicket = () => {
-    send('DONE')
+    send('DONE', {newPassenger: value})
   }
 
   const submit = (e) => {
     e.preventDefault();
-    changeValue('');
+    send("ADD", {newPassenger: value})
+    changeValue('')
   }
 
   return (
+    <>
     <form onSubmit={submit} className='Passengers'>
       <p className='Passengers-title title'>Agrega a las personas que van a volar ✈️</p>
+        <div>
+          {state.context.passengers.map((item, index) => (
+            <p key={index}>{item}</p>
+          ))}
+        </div>
       <input 
         id="name" 
         name="name" 
@@ -31,12 +39,15 @@ export const Passengers = ({ state, send }) => {
       />
       <div className='Passengers-buttons'>
         <button 
+          disabled={!value.length}
+          onClick={submit}
           className='Passengers-add button-secondary'
           type="submit"
         >
           Agregar Pasajero
         </button>
         <button
+          disabled={!state.context.passengers.length}
           onClick={goToTicket}
           className='Passenger-pay button'
           type="button"
@@ -44,7 +55,8 @@ export const Passengers = ({ state, send }) => {
           Ver mi ticket
         </button>
       </div>
-    </form>
+      </form>
+    </>
   );
 };
 
